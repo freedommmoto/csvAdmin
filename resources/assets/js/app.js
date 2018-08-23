@@ -10,6 +10,7 @@ Vue.component('chat-composer', require('./components/ChatComposer.vue'));
 Vue.component('products', require('./components/Products.vue'));
 //Vue.component('products-lists', require('./components/Productlists.vue'));
 
+
 const app = new Vue({
     el: '#app',
     data: {
@@ -25,12 +26,13 @@ const app = new Vue({
             axios.post('/messages', message).then(response => {
                 // Do whatever;
             })
-        }
+        },
     },
     created() {
-        axios.get('/messages').then(response => {
-            this.messages = response.data;
-        });
+        // axios.get('/messages').then(response => {
+        //     this.messages = response.data;
+        // });
+
 
         /*
         Echo.join('chatroom')

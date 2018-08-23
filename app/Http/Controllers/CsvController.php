@@ -94,4 +94,15 @@ class CsvController extends Controller
     }
 
 
+    /**
+     * get product data in json format
+     *
+     * @return Json
+     */
+    public function getProducts()
+    {
+        return Products::all($this->columnsProduct);
+    }
+
+
 }

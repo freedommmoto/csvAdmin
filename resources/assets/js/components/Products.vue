@@ -11,6 +11,7 @@
                     </div>
     </div>
 
+
     <table v-if="parse_csv">
           <thead>
             <tr>
@@ -41,8 +42,9 @@ export default {
             channel_name: '',
             channel_fields: [],
             channel_entries: [],
-            parse_header: [],
+            parse_header: ['id','Name','Description','Price','Stock'],
             parse_csv: [],
+            requestCSv: [],
             sortOrders:{},
             sortKey: ''
         }
@@ -59,17 +61,20 @@ export default {
                 this.usersInRoom = this.usersInRoom.filter(u => u != user)
             })
             .listen('MessagePosted', (e) => {
-                swal("New Files Been upload!", "Have new data been export", "success");
-                console.log(e.message.message);
-                /*
-                this.messages.push({
-                    message: e.message.message,
-                    user: e.user
-                });
-                */
+                swal("New Files Been upload!", "Have new data been export", "success")
+                console.log(e.message.message)
+                this.getProducts()
             });
+        this.getProducts()
     },
     methods: {
+        getProducts(){
+            fetch('/products')
+                .then(res => res.json())
+                .then(res => {
+                    this.parse_csv = res;
+                })
+        },
         csvJSON(csv){
             var vm = this
             var lines = csv.split("\n")
@@ -105,11 +110,12 @@ export default {
                 // Handle errors load
                 reader.onload = function(event) {
                     var csv = event.target.result;
-                    vm.parse_csv = vm.csvJSON(csv)
-                    console.log(vm.parse_csv)
+                    vm.requestCSv = vm.csvJSON(csv)
 
-                    axios.post('/upload_csv', {'parse_csv':vm.parse_csv}).then(response => {
-                        // Do whatever;
+                    axios.post('/upload_csv', {'parse_csv':vm.requestCSv}).then(response => {
+                        console.log(response);
+                        vm.parse_csv = response.data
+                        swal("You Import successful ", "you data have been save and send to anyone", "success");
                     })
 
                 };
@@ -127,7 +133,6 @@ export default {
 </script>
 
 <style lang="css">
-
     .panel-heading h1, .panel-heading h2, .panel-heading h3, .panel-heading h4, .panel-heading h5, .panel-heading h6 {
         margin: 0;
         padding: 0;

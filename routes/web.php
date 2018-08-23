@@ -38,5 +38,6 @@ Auth::routes();
 Route::get('/messages', 'MessagesController@getMessages');
 Route::post('/messages', 'MessagesController@saveMessages');
 
+Route::get('/products', 'CsvController@getProducts');
 Route::post('/upload_csv', 'CsvController@csvUpload');
 Route::get('/download_csv', 'CsvController@csvDownload');
