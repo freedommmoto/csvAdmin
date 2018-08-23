@@ -11,8 +11,13 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect('/login');
 });
+
+Route::get('/home', function () {
+    return redirect('/get-all-products');
+});
+
 
 Route::get('/chat', function () {
     return view('chat');
@@ -23,7 +28,7 @@ Route::get('/get-all-products', function () {
 })->middleware('auth');
 
 Auth::routes();
-Route::get('/home', 'HomeController@index');
+//Route::get('/home', 'HomeController@index');
 
 /*
 |--------------------------------------------------------------------------
@@ -34,4 +39,4 @@ Route::get('/messages', 'WebController@getMessages');
 Route::post('/messages', 'WebController@saveMessages');
 
 Route::post('/upload_csv', 'WebController@csvUpload');
-Route::get('/upload_csv', 'WebController@csvUpload');
+Route::get('/download_csv', 'WebController@csvDownload');

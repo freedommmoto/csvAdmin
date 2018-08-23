@@ -3,11 +3,13 @@
 
       <div class="form-group">
                     <label for="csv_file" class="control-label col-sm-3 text-right">CSV file to import</label>
-                    <div class="col-sm-9">
+                    <div class="col-sm-7">
                         <input type="file" id="csv_file" name="csv_file" class="form-control" @change="loadCSV($event)">
                     </div>
+                    <div class="col-sm-2">
+                        <a href="./download_csv"><button class="btn-primary">export</button></a>
+                    </div>
     </div>
-
 
     <table v-if="parse_csv">
           <thead>
@@ -44,6 +46,28 @@ export default {
             sortOrders:{},
             sortKey: ''
         }
+    },
+    created() {
+        Echo.join('chatroom')
+            .here((users) => {
+                this.usersInRoom = users;
+            })
+            .joining((user) => {
+                this.usersInRoom.push(user);
+            })
+            .leaving((user) => {
+                this.usersInRoom = this.usersInRoom.filter(u => u != user)
+            })
+            .listen('MessagePosted', (e) => {
+                swal("New Files Been upload!", "Have new data been export", "success");
+                console.log(e.message.message);
+                /*
+                this.messages.push({
+                    message: e.message.message,
+                    user: e.user
+                });
+                */
+            });
     },
     methods: {
         csvJSON(csv){

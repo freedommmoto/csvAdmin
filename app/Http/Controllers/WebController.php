@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Products;
 use Illuminate\Http\Request;
 use App\Events\MessagePosted;
 use Auth;
 use App\Message;
+use App\classes\CsvBasic;
 
 class WebController extends Controller
 {
@@ -57,7 +59,26 @@ class WebController extends Controller
     public function csvUpload()
     {
         $csvData = request()->get('parse_csv');
+
+        $user = Auth::user();
+
+        $message = $user->messages()->create(['message' => 'upload done']);
+        broadcast(new MessagePosted( $message, $user))->toOthers();
+
         return $csvData;
+    }
+
+    /**
+     * export data to csv file used basic csv class
+     *
+     * @return csv file
+     */
+    public function csvDownload()
+    {
+        $columns = ['Name','Description','Price','Stock'];
+        $csvData = Products::all($columns)->toArray();
+        $csv = new CsvBasic();
+        return $csv->exportCSV($csvData,'Products',$columns);
     }
 
 

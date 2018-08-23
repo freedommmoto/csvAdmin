@@ -49,3 +49,5 @@ window.Echo = new Echo({
  * do not remove import Pusher
  */
 import Pusher from "pusher-js"
+
+import swal from 'sweetalert';
