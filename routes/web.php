@@ -35,8 +35,8 @@ Auth::routes();
 | API Routes
 |--------------------------------------------------------------------------
 */
-Route::get('/messages', 'WebController@getMessages');
-Route::post('/messages', 'WebController@saveMessages');
+Route::get('/messages', 'MessagesController@getMessages');
+Route::post('/messages', 'MessagesController@saveMessages');
 
-Route::post('/upload_csv', 'WebController@csvUpload');
-Route::get('/download_csv', 'WebController@csvDownload');
+Route::post('/upload_csv', 'CsvController@csvUpload');
+Route::get('/download_csv', 'CsvController@csvDownload');

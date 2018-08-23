@@ -4,7 +4,7 @@ namespace App\classes;
 
 class CsvBasic
 {
-    public function exportCSV($data, $name = 'data',$columns)
+    public function exportCSV($data, $name = 'data')
     {
         print "\xEF\xBB\xBF"; // UTF-8 BOM
         $csv_output = $this::array2csv($data);
